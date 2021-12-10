@@ -63,6 +63,27 @@ def save():
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
 
+# ---------------------------- SEARCH ------------------------------- #
+def search_data():
+    website = website_entry.get()
+    try:
+        with open("data.json", "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo("file not found")
+    else:
+        if website in data:
+            # messagebox.showinfo(title="info found", message=f"website: {website} {data.get(website)}")
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"email: {email}\npassword: {password}")
+        else:
+            messagebox.showinfo(message=f"no details for {website} found")
+
+
+
+
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -97,10 +118,12 @@ generate_password=Button(text="Generate Password", fg=ORANGE, bg=PALE_ROSE, comm
 generate_password.grid(row=3, column=2)
 add_button=Button(text="ADD", fg=ORANGE, bg=PALE_ROSE, font=("Courier", 10), width=38, command=save)
 add_button.grid(row=4, column=1,columnspan=2)
+search_website=Button(text="Search", fg=ORANGE, bg=PALE_ROSE, width=14, command=search_data)
+search_website.grid(row=1, column=2)
 
 #Entries
-website_entry = Entry(width=50)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=31)
+website_entry.grid(row=1, column=1)
 website_entry.focus()
 email_entry = Entry(width=50)
 email_entry.insert(0, "veronika.vyalikh@gmail.com")
